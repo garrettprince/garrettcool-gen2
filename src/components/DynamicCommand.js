@@ -7,7 +7,11 @@ import {
   PresentationControls,
 } from "@react-three/drei";
 import { motion, AnimatePresence } from "framer-motion";
-import { Bars2Icon, Bars3Icon } from "@heroicons/react/24/outline";
+import {
+  Bars2Icon,
+  Bars3Icon,
+  ChatBubbleLeftIcon,
+} from "@heroicons/react/24/outline";
 
 function DynamicCommand() {
   const [command, setCommand] = useState("home");
@@ -15,7 +19,7 @@ function DynamicCommand() {
   const variants = {
     home: {
       width: 100,
-      height: 55,
+      height: 50,
       transition: {
         type: "spring",
         stiffness: 500,
@@ -25,7 +29,17 @@ function DynamicCommand() {
     },
     menu: {
       width: 200,
-      height: 55,
+      height: 50,
+      transition: {
+        type: "spring",
+        stiffness: 500,
+        damping: 50,
+        duration: 0.2,
+      },
+    },
+    chat: {
+      width: 350,
+      height: 250,
       transition: {
         type: "spring",
         stiffness: 500,
@@ -38,11 +52,13 @@ function DynamicCommand() {
   return (
     <motion.div
       initial="home"
-      animate={command === "menu" ? "menu" : "home"}
+      animate={
+        command === "menu" ? "menu" : command === "chat" ? "chat" : "home"
+      }
       variants={variants}
-      className="flex justify-between items-center border mx-auto mb-8 shadow-lg rounded-[1.25rem]"
+      className="flex justify-between items-center mx-auto mb-8 shadow-lg rounded-[1.25rem] border"
     >
-      <div className="w-11 h-11 rounded-full ml-1">
+      <motion.div className={`${command === 'chat' ? 'w-24 h-24' : 'w-12 h-full'} rounded-full ml-1`}>
         <Canvas shadows>
           <PerspectiveCamera makeDefault position={[0, 0.25, 18]} fov={10} />
           <Suspense>
@@ -61,7 +77,7 @@ function DynamicCommand() {
             </PresentationControls>
           </Suspense>
         </Canvas>
-      </div>
+      </motion.div>
       <div onClick={() => setCommand("menu")}>
         <Bars3Icon className="w-8 h-8 mr-2" />
       </div>
@@ -69,8 +85,16 @@ function DynamicCommand() {
         <Bars2Icon className="w-6 h-6" />
       </div> */}
       {command === "menu" && (
-        <motion.div onClick={() => setCommand("home")}>
-          <Bars2Icon className="w-8 h-8 mr-2" />
+        <motion.div className="flex justify-between items-center">
+          <Bars2Icon
+            onClick={() => setCommand("home")}
+            className="w-8 h-8 mr-2"
+          />
+          <ChatBubbleLeftIcon
+            onClick={() => setCommand("chat")}
+            className="w-6 h-6 mr-2"
+          />
+          {/* <MusicalNotesIcon className="w-6 h-6 mr-2" /> */}
         </motion.div>
       )}
     </motion.div>
