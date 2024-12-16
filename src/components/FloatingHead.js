@@ -11,12 +11,6 @@ const FloatingHead = ({ command }) => {
         : command === "chat"
         ? [0, 0.25, 0]
         : [0, 0, 0],
-    scale:
-      command === "menu"
-        ? [1, 1, 1]
-        : command === "chat"
-        ? [2, 2, 2]
-        : [1, 1, 1],
   });
 
   return (

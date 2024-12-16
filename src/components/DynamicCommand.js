@@ -10,7 +10,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Bars2Icon,
   Bars3Icon,
-  ChatBubbleLeftIcon,
+  ChatBubbleOvalLeftIcon,
+  XMarkIcon,
+  UserIcon,
 } from "@heroicons/react/24/outline";
 
 function DynamicCommand() {
@@ -18,7 +20,7 @@ function DynamicCommand() {
 
   const variants = {
     home: {
-      width: 100,
+      width: 90,
       height: 50,
       transition: {
         type: "spring",
@@ -39,7 +41,7 @@ function DynamicCommand() {
     },
     chat: {
       width: 350,
-      height: 250,
+      height: 150,
       transition: {
         type: "spring",
         stiffness: 500,
@@ -56,11 +58,15 @@ function DynamicCommand() {
         command === "menu" ? "menu" : command === "chat" ? "chat" : "home"
       }
       variants={variants}
-      className="flex justify-between items-center mx-auto mb-8 shadow-lg rounded-[1.25rem] border"
+      className="flex justify-between mx-auto mb-8  rounded-[1.25rem] border border-gray-200 bg-white"
     >
-      <motion.div className={`${command === 'chat' ? 'w-24 h-24' : 'w-12 h-full'} rounded-full ml-1`}>
+      <motion.div
+        className={`${
+          command === "chat" ? "w-12 h-12" : "w-12 h-12"
+        } rounded-full`}
+      >
         <Canvas shadows>
-          <PerspectiveCamera makeDefault position={[0, 0.25, 18]} fov={10} />
+          <PerspectiveCamera makeDefault position={[0, 0.25, 18]} fov={12} />
           <Suspense>
             <spotLight
               position={[5, 5, 5]}
@@ -70,7 +76,7 @@ function DynamicCommand() {
               castShadow
               shadow-mapSize={[512, 512]}
             />
-            <ambientLight intensity={0.2} />
+            <ambientLight intensity={0.3} />
             <Environment preset="sunset" />
             <PresentationControls>
               <FloatingHead command={command} />
@@ -78,27 +84,60 @@ function DynamicCommand() {
           </Suspense>
         </Canvas>
       </motion.div>
-      <div onClick={() => setCommand("menu")}>
-        <Bars3Icon className="w-8 h-8 mr-2" />
-      </div>
+
       {/* <div onClick={() => setCommand("home")}>
         <Bars2Icon className="w-6 h-6" />
       </div> */}
       {command === "menu" && (
-        <motion.div className="flex justify-between items-center">
-          <Bars2Icon
-            onClick={() => setCommand("home")}
-            className="w-8 h-8 mr-2"
-          />
-          <ChatBubbleLeftIcon
-            onClick={() => setCommand("chat")}
-            className="w-6 h-6 mr-2"
-          />
-          {/* <MusicalNotesIcon className="w-6 h-6 mr-2" /> */}
-        </motion.div>
+        <AnimatePresence>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="flex justify-between items-center"
+          >
+            <Bars2Icon
+              onClick={() => setCommand("home")}
+              className="w-8 h-8 mr-2"
+            />
+            <ChatBubbleOvalLeftIcon
+              onClick={() => setCommand("chat")}
+              className="w-6 h-6 mr-2"
+            />
+            <UserIcon className="w-6 h-6 mr-2" />
+          </motion.div>
+        </AnimatePresence>
       )}
+
+
+      {command === "chat" && (
+        <div>
+          <div className="mt-3">
+            Chat
+          </div>
+          
+        </div>
+      )}
+
+      {/* Home Button */}
+      {command === "home" ? (
+        <div onClick={() => setCommand("menu")}>
+          <Bars3Icon className="w-6 h-6 mr-2 mt-3 cursor-pointer" />
+        </div>
+      ) : (
+        <div onClick={() => setCommand("home")}>
+          <XMarkIcon className="w-6 h-6 mr-2 mt-3 cursor-pointer" />
+        </div>
+      )}
+
+      {/* {command === "chat" && (
+        <div className="mt-3 flex">
+          <input type="text" placeholder="Type your message here..." />
+        </div>
+      )} */}
     </motion.div>
   );
 }
 
 export default DynamicCommand;
+
