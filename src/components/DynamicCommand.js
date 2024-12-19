@@ -14,7 +14,7 @@ import {
   XMarkIcon,
   UserIcon,
 } from "@heroicons/react/24/outline";
-
+import Scene from "./Scene";
 function DynamicCommand() {
   const [command, setCommand] = useState("home");
 
@@ -51,6 +51,23 @@ function DynamicCommand() {
     },
   };
 
+  const menuItemVariants = {
+    hidden: { 
+      opacity: 0,
+      y: 20
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 400,
+        damping: 40,
+        delay: 0.1 // Delay animation until container expands
+      }
+    }
+  };
+
   return (
     <motion.div
       initial="home"
@@ -58,7 +75,7 @@ function DynamicCommand() {
         command === "menu" ? "menu" : command === "chat" ? "chat" : "home"
       }
       variants={variants}
-      className="flex justify-between mx-auto mb-8  rounded-[1.25rem] border border-gray-200 bg-white"
+      className="flex justify-between mx-auto mb-8  rounded-[1rem]  bg-white shadow-[rgba(7,_65,_210,_0.1)_0px_5px_15px] overflow-hidden"
     >
       <motion.div
         className={`${
@@ -66,7 +83,7 @@ function DynamicCommand() {
         } rounded-full`}
       >
         <Canvas shadows>
-          <PerspectiveCamera makeDefault position={[0, 0.25, 18]} fov={12} />
+          <PerspectiveCamera makeDefault position={[0, 0.35, 18]} fov={12} />
           <Suspense>
             <spotLight
               position={[5, 5, 5]}
@@ -78,55 +95,52 @@ function DynamicCommand() {
             />
             <ambientLight intensity={0.3} />
             <Environment preset="sunset" />
-            <PresentationControls>
-              <FloatingHead command={command} />
-            </PresentationControls>
+            <FloatingHead command={command} />
           </Suspense>
         </Canvas>
+        {/* <Scene command={command} /> */}
       </motion.div>
 
-      {/* <div onClick={() => setCommand("home")}>
-        <Bars2Icon className="w-6 h-6" />
-      </div> */}
       {command === "menu" && (
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="flex justify-between items-center"
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+            variants={menuItemVariants}
+            className="flex justify-between items-center flex-1 px-4"
           >
             <Bars2Icon
               onClick={() => setCommand("home")}
-              className="w-8 h-8 mr-2"
+              className="w-6 h-6 cursor-pointer"
             />
             <ChatBubbleOvalLeftIcon
               onClick={() => setCommand("chat")}
-              className="w-6 h-6 mr-2"
+              className="w-6 h-6 cursor-pointer"
             />
-            <UserIcon className="w-6 h-6 mr-2" />
+            <UserIcon className="w-6 h-6 cursor-pointer" />
           </motion.div>
         </AnimatePresence>
       )}
 
-
       {command === "chat" && (
-        <div>
-          <div className="mt-3">
-            Chat
-          </div>
-          
+        <div className="flex mt-3"> 
+          <ChatBubbleOvalLeftIcon
+              onClick={() => setCommand("chat")}
+              className="w-6 h-6 mr-2"
+            />
+          <div className="">Chat</div>
         </div>
       )}
 
       {/* Home Button */}
       {command === "home" ? (
         <div onClick={() => setCommand("menu")}>
-          <Bars3Icon className="w-6 h-6 mr-2 mt-3 cursor-pointer" />
+          <Bars3Icon className="w-6 h-6 mr-2 mt-[.8rem] cursor-pointer" />
         </div>
       ) : (
         <div onClick={() => setCommand("home")}>
-          <XMarkIcon className="w-6 h-6 mr-2 mt-3 cursor-pointer" />
+          <XMarkIcon className="w-6 h-6 mr-2 mt-[.8rem] cursor-pointer" />
         </div>
       )}
 
@@ -140,4 +154,3 @@ function DynamicCommand() {
 }
 
 export default DynamicCommand;
-

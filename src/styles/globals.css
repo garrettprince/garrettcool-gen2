@@ -4,6 +4,12 @@
 
 @layer base {
   body {
-    background-color: #F1F0EE;
+    background-color: #f1f0ee;
+  }
+
+  .dynamic-command-shadow {
+    box-shadow: rgba(28, 40, 64, 0.04) 0px 0px 0px 1px,
+      rgba(28, 40, 64, 0.12) 0px 4px 8px -4px,
+      rgba(28, 40, 64, 0.16) 0px 4px 12px -2px;
   }
 }
