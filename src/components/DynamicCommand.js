@@ -21,7 +21,7 @@ function DynamicCommand() {
   const variants = {
     home: {
       width: 90,
-      height: 50,
+      height: 54,
       transition: {
         type: "spring",
         stiffness: 500,
@@ -31,7 +31,7 @@ function DynamicCommand() {
     },
     menu: {
       width: 200,
-      height: 50,
+      height: 54,
       transition: {
         type: "spring",
         stiffness: 500,
@@ -75,7 +75,8 @@ function DynamicCommand() {
         command === "menu" ? "menu" : command === "chat" ? "chat" : "home"
       }
       variants={variants}
-      className="flex justify-between mx-auto mb-8  rounded-[1rem]  bg-white shadow-[rgba(7,_65,_210,_0.1)_0px_5px_15px] overflow-hidden"
+      // className="flex justify-between mx-auto mb-8  rounded-[1rem]  bg-white shadow-[rgba(7,_65,_210,_0.1)_0px_5px_15px] overflow-hidden"
+      className="flex justify-between mx-auto mb-8  rounded-[1rem] bg-white  border-b-[5px] border-gray-200  "
     >
       <motion.div
         className={`${
